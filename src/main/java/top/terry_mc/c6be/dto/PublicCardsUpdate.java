@@ -4,5 +4,5 @@ import top.terry_mc.c6be.model.CardAccess;
 
 import java.util.List;
 
-public record PublicCardsUpdate(List<CardAccess> publicCards) {
+public record PublicCardsUpdate(List<CardAccess> publicCards) implements Packet {
 }

@@ -7,7 +7,7 @@ import top.terry_mc.c6be.model.PlayerAccess;
 /**
  * @param actionType USE MOVE
  */
-public record ActionBroadcast(PlayerAccess player, String actionType, ActionData data) {
+public record ActionBroadcast(PlayerAccess player, String actionType, ActionData data) implements Packet {
     /**
      * @param publicCardId       null就是这牌没了
      * @param targetPublicCardId move用的目标牌位置

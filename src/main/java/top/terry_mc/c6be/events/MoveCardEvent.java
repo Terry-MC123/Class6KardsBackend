@@ -1,11 +1,13 @@
 package top.terry_mc.c6be.events;
 
 import lombok.Getter;
+import top.terry_mc.c6be.dto.Packet;
 import top.terry_mc.c6be.model.Card;
 import top.terry_mc.c6be.model.GameRoom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Called before the moving
@@ -18,8 +20,8 @@ public class MoveCardEvent extends GameEvent{
     @Getter
     private final int targetPublicCardId;
 
-    public MoveCardEvent(GameRoom room, Card card, int targetPublicCardId) {
-        super(room, listeners);
+    public MoveCardEvent(GameRoom room, Consumer<Packet> addPacket, Card card, int targetPublicCardId) {
+        super(room, listeners, addPacket);
         this.card = card;
         this.targetPublicCardId = targetPublicCardId;
     }
