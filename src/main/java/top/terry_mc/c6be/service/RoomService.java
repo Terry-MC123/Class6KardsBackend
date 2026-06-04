@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import top.terry_mc.c6be.model.GameRoom;
 import top.terry_mc.c6be.model.GameStatus;
 import top.terry_mc.c6be.model.Player;
-import top.terry_mc.c6be.model.Subject;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,12 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class RoomService {
     private final ConcurrentHashMap<String, GameRoom> rooms = new ConcurrentHashMap<>();//roomId -> room
-    private final Random random = new Random();
     public GameRoom createRoom(String roomId, Player creator) {
         GameRoom room = new GameRoom(roomId);
         room.setClassCnt(0);
         room.setRoundCnt(0);
-        room.setClasses(generateClasses());
         room.getPlayers().put(creator.getPlayerId(), creator);
         room.setStatus(GameStatus.WAITING);
         rooms.put(roomId, room);
@@ -34,10 +31,4 @@ public class RoomService {
         }
         return false;
     }
-    private List<Subject> generateClasses() {
-        List<Subject> list = Arrays.asList(Subject.values());
-        Collections.shuffle(list, random);
-        return List.copyOf(list);
-    }
-
 }

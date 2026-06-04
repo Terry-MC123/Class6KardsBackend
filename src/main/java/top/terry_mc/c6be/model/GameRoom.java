@@ -12,7 +12,7 @@ public class GameRoom {
     private Integer roundCnt;
     private Integer classCnt;
     private List<Subject> classes;
-    private String currentTurnPlayerId;
+    private Player currentTurnPlayer;
     private List<Card> publicCards;
     private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>(); // playerId -> Player
     private GameStatus status;

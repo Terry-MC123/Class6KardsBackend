@@ -5,6 +5,8 @@ import top.terry_mc.c6be.dto.*;
 import top.terry_mc.c6be.model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 // TODO: 逻辑中加入所有的events（events包内的，不是广播事件）
@@ -44,9 +46,16 @@ public class GameLogicService {
         List<Player> list = room.getPlayers().values().stream().toList();
         Player first = list.getFirst();
         Player second = list.getLast();
+        room.setClasses(generateClasses());
         // TODO: 开始游戏（生成牌、给血量啥的）
         newTurn(room, first);
         room.setStatus(GameStatus.PLAYING);
+    }
+
+    private List<Subject> generateClasses() {
+        List<Subject> list = Arrays.asList(Subject.values());
+        Collections.shuffle(list);
+        return List.copyOf(list);
     }
 
     /**
@@ -58,11 +67,10 @@ public class GameLogicService {
         GameRoom room = roomService.getRoom(roomId);
         if (room == null) return events;
         Player player = room.getPlayers().get(playerId);
-        if (player == null || player.getHp() <= 0 || !room.getCurrentTurnPlayerId().equals(player.getPlayerId())) return events;
+        if (player == null || player.getHp() <= 0 || !room.getCurrentTurnPlayer().equals(player)) return events;
         if(!(data instanceof ActionBroadcast.ActionData actionData)) return events;
         // TODO: 校验 & 执行卡牌效果
-        // 播动画
-        events.add(new ActionBroadcast(player.toAccess(), "USE", actionData));
+        events.add(new ActionBroadcast(player.toAccess(), "USE", actionData)); // 播动画
         if (actionData.publicCardId() != null) events.add(new PublicCardsUpdate(room.getPublicCardAccesses()));
         events.add(new PrivateHandUpdate(player.getHandCardAccesses()));
         return events;
@@ -77,13 +85,11 @@ public class GameLogicService {
         GameRoom room = roomService.getRoom(roomId);
         if (room == null) return events;
         Player player = room.getPlayers().get(playerId);
-        if (player == null || player.getHp() <= 0 || !room.getCurrentTurnPlayerId().equals(player.getPlayerId())) return events;
+        if (player == null || player.getHp() <= 0 || !room.getCurrentTurnPlayer().equals(player)) return events;
         if(!(data instanceof ActionBroadcast.ActionData actionData)) return events;
         // TODO: 校验 & 执行移动逻辑
-        // 播动画
-        events.add(new ActionBroadcast(player.toAccess(), "MOVE", actionData));
-        //一定产生update（即使不动也要update）
-        events.add(new PublicCardsUpdate(room.getPublicCardAccesses()));
+        events.add(new ActionBroadcast(player.toAccess(), "MOVE", actionData)); // 播动画
+        events.add(new PublicCardsUpdate(room.getPublicCardAccesses())); //一定产生update（即使不动也要update）
         return events;
     }
 
@@ -96,7 +102,7 @@ public class GameLogicService {
         GameRoom room = roomService.getRoom(roomId);
         if (room == null) return events;
         Player player = room.getPlayers().get(playerId);
-        if (player == null || player.getHp() <= 0 || !room.getCurrentTurnPlayerId().equals(player.getPlayerId())) return events;
+        if (player == null || player.getHp() <= 0 || !room.getCurrentTurnPlayer().equals(player)) return events;
         if (data!=null) return events;
         List<Player> list = new ArrayList<>(room.getPlayers().values());
         list.remove(player);
@@ -108,6 +114,7 @@ public class GameLogicService {
     }
 
     public void newTurn(GameRoom room, Player player) {
+        room.setCurrentTurnPlayer(player);
         // TODO: 开新的turn
     }
 }

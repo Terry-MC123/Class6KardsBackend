@@ -1,7 +1,6 @@
 package top.terry_mc.c6be.events;
 
 import lombok.Getter;
-import top.terry_mc.c6be.dto.ActionBroadcast;
 import top.terry_mc.c6be.model.Card;
 import top.terry_mc.c6be.model.GameRoom;
 
