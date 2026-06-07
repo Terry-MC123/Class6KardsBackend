@@ -19,8 +19,6 @@ public class GameWebSocketController {
     @Autowired
     private GameLogicService gameLogicService;
 
-    // TODO: all（参照DeepSeek给的帮助）
-
     @MessageMapping("/join")
     public void handleJoin(@Payload ClientPayload payload) {
         List<Packet> packets = gameLogicService.handleJoin(payload.roomId(), payload.playerId(), payload.data());
