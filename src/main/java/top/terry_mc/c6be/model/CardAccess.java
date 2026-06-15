@@ -1,4 +1,6 @@
 package top.terry_mc.c6be.model;
 
-public record CardAccess(String cardId, Card.CardType cardType) {
+import java.util.Map;
+
+public record CardAccess(String cardId, Card.CardType cardType, Map<Subject, Card.AttributeLevel> attributes) {
 }

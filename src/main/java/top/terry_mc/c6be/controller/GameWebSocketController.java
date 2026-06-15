@@ -37,6 +37,12 @@ public class GameWebSocketController {
         sendPackets(payload.roomId(), packets);
     }
 
+    @MessageMapping("/finish")
+    public void handleFinish(@Payload ClientPayload payload) {
+        List<Packet> packets = gameLogicService.handleFinish(payload.roomId(), payload.playerId(), payload.data());
+        sendPackets(payload.roomId(), packets);
+    }
+
     private void sendPackets(String roomId, List<Packet> packets) {
         String s = "/topic/room/" + roomId + "/";
         for (Packet packet : packets) {

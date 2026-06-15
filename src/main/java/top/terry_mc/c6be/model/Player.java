@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 public class Player {
     private final String playerId;
     private final String name;
-    private int hp;
+    private final Integer publicCardId;
     private List<Card> handCards;
     public PlayerAccess toAccess() {
-        return new PlayerAccess(playerId,name,hp);
+        return new PlayerAccess(playerId,name,publicCardId);
     }
     public List<CardAccess> getHandCardAccesses() {
         return handCards.stream().map(Card::toAccess).collect(Collectors.toList());

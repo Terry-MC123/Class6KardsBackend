@@ -3,6 +3,7 @@ package top.terry_mc.c6be.model;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -13,11 +14,11 @@ public class GameRoom {
     private Integer classCnt;
     private List<Subject> classes;
     private Player currentTurnPlayer;
-    private List<Card> publicCards;
+    private List<Map.Entry<Card,Float>> publicCards;
     private final ConcurrentHashMap<String, Player> players = new ConcurrentHashMap<>(); // playerId -> Player
     private GameStatus status;
 
-    public List<CardAccess> getPublicCardAccesses() {
-        return publicCards.stream().map(Card::toAccess).collect(Collectors.toList());
+    public List<Map.Entry<CardAccess,Float>> getPublicCardAccesses() {
+        return publicCards.stream().map(entry -> Map.entry(entry.getKey().toAccess(), entry.getValue())).collect(Collectors.toList());
     }
 }
