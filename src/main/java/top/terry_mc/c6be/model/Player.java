@@ -10,7 +10,9 @@ public class Player {
     private final String playerId;
     private final String name;
     private final Integer publicCardId;
-    private List<Card> handCards;
+    private java.util.List<Card> handCards = new java.util.ArrayList<>();
+    private Integer commandPointCap = 1;
+    private Integer commandPoint = 1;
     public PlayerAccess toAccess() {
         return new PlayerAccess(playerId,name,publicCardId);
     }
